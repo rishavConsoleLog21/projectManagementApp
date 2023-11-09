@@ -43,7 +43,6 @@ function App() {
         ...projectData,
         id: Math.random().toString(),
       };
-
       return {
         ...prevState,
         selectedProjectId: undefined,
@@ -52,11 +51,23 @@ function App() {
     });
   }
 
+  function handleDeleteProject() {
+    setProject((prevState) => {
+      return {
+        ...prevState,
+        selectedProjectId: undefined,
+        projects: prevState.projects.filter(
+          (project) => project.id !== prevState.selectedProjectId
+        ),
+      };
+    });
+  }
+
   const selectedProject = project.projects.find(
     (projectId) => projectId.id === project.selectedProjectId
   );
 
-  let content = <SelectedProject project={selectedProject} />;
+  let content = <SelectedProject project={selectedProject} onDelete={handleDeleteProject}/>;
 
   if (project.selectedProjectId === null) {
     content = (
